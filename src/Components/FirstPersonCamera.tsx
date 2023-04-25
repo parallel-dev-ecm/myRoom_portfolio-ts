@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { FirstPersonControls } from "@react-three/drei";
-
 type Props = {};
 
 type KeyState = {
@@ -55,7 +54,7 @@ function FirstPersonCamera({}: Props) {
     );
   });
 
-  return <FirstPersonControls />;
+  return <FirstPersonCamera />;
 }
 
 export default FirstPersonCamera;
