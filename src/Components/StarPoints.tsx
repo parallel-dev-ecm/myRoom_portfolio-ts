@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 
 import * as THREE from "three";
+
 import { Sphere, Stars, Cloud } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 
 type Props = { numberOfStars: number; starScale: number };
 

@@ -10,12 +10,6 @@ type Props = {
 function RoomScan({ scale, position, rotation }: Props) {
   const { scene } = useGLTF("./roomScan.glb");
 
-  scene.traverse((child) => {
-    if (child instanceof Mesh) {
-      console.log(child.material);
-    }
-  });
-
   return (
     <primitive
       object={scene}
