@@ -13,9 +13,7 @@ type Props = {
 function OscarTheDog({ scale, position, rotation }: Props) {
   const oscar = useGLTF("./oscar_the_dog.glb");
   const groupRef = useRef<THREE.Group>(null);
-
   const animations = useAnimations(oscar.animations, oscar.scene);
-  console.log(animations);
 
   useEffect(() => {
     const idle = animations.actions.Idle;

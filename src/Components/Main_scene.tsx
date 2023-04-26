@@ -4,7 +4,7 @@ import * as THREE from "three";
 import StarPoints from "./StarPoints";
 import { Suspense } from "react";
 import LoadingScreen from "./LoadingScreen";
-import { PointerLockControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import OscarTheDog from "./OscarTheDog";
 
 type Props = {};
@@ -37,7 +37,7 @@ function Main_scene({}: Props) {
 
         <ambientLight color={[1, 1, 1]} intensity={0.4} />
       </Suspense>
-      <PointerLockControls />
+      <OrbitControls />
     </Canvas>
   );
 }
