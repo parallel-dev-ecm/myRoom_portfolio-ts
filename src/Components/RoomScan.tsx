@@ -1,5 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import { Mesh } from "three";
+import { RigidBody } from "@react-three/rapier";
 
 type Props = {
   scale: THREE.Vector3;
@@ -11,12 +11,14 @@ function RoomScan({ scale, position, rotation }: Props) {
   const { scene } = useGLTF("./roomScan.glb");
 
   return (
-    <primitive
-      object={scene}
-      scale={[scale.x, scale.y, scale.z]}
-      position={[position.x, position.y, position.z]}
-      rotation={[rotation.x, rotation.y, rotation.z]}
-    />
+    <RigidBody type="fixed">
+      <primitive
+        object={scene}
+        scale={[scale.x, scale.y, scale.z]}
+        position={[position.x, position.y, position.z]}
+        rotation={[rotation.x, rotation.y, rotation.z]}
+      />
+    </RigidBody>
   );
 }
 
