@@ -9,11 +9,15 @@ import {
   OrbitControls,
   PerspectiveCamera,
   PointerLockControls,
+  Stars,
 } from "@react-three/drei";
 import OscarTheDog from "./OscarTheDog";
 import { Physics, Debug } from "@react-three/rapier";
 import SplineRoom from "./SplineRoom";
 import Player from "./Player";
+import SpaceBoi from "./SpaceBoi";
+import BackGroundSphere from "./BackGroundSphere";
+import Ground from "./Ground";
 
 type Props = {};
 
@@ -50,7 +54,10 @@ function Main_scene({}: Props) {
               rotation={oscarRotation}
             />
             <Player />
+            <Ground />
           </Physics>
+          <Stars />
+          <SpaceBoi />
           <PointerLockControls />
           <StarPoints numberOfStars={1000} starScale={0.09} />
           <ambientLight color={[1, 0, 0.1]} intensity={0.7} />

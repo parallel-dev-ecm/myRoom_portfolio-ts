@@ -1,30 +1,22 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import * as THREE from "three";
-import {
-  RigidBody,
-  RigidBodyApi,
-  useRapier,
-  CapsuleCollider,
-} from "@react-three/rapier";
+import { RigidBody, RigidBodyApi, CapsuleCollider } from "@react-three/rapier";
 import { useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
 type Props = {};
 
-const SPEED = 5;
+const SPEED = 10;
 const direction = new THREE.Vector3();
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
-const rotation = new THREE.Vector3();
 
 function Player({}: Props) {
-  const lerp = THREE.MathUtils.lerp;
   const rigidBodyRef = useRef<RigidBodyApi | null>(null);
-  const rapier = useRapier();
   const [, get] = useKeyboardControls();
 
   useFrame((state) => {
-    const { forward, backward, left, right, jump } = get();
+    const { forward, backward, left, right } = get();
 
     if (rigidBodyRef.current) {
       const velocity = rigidBodyRef.current.linvel();
@@ -52,7 +44,6 @@ function Player({}: Props) {
         ref={rigidBodyRef}
         colliders={false}
         mass={1}
-        type="dynamic"
         position={[0, 10, 0]}
         enabledRotations={[false, false, false]}
       >
