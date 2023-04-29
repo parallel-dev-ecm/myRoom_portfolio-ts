@@ -9,6 +9,7 @@ function SpaceBoi({}: Props) {
   return (
     <>
       <primitive
+        name={"spaceBoi"}
         object={model.scene}
         scale={[scale, scale, scale]}
         position={[0, -7, 150]}

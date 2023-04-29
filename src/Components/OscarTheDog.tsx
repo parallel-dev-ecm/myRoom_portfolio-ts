@@ -30,6 +30,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       <RigidBody ref={rigidBodyRef} friction={0.1}>
         <group name="oscarTheDog" ref={groupRef}>
           <primitive
+            name={"oscarTheDog"}
             object={oscar.scene}
             scale={[scale, scale, scale]}
             position={position}

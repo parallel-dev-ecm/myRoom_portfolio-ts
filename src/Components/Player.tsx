@@ -17,6 +17,17 @@ function Player({}: Props) {
 
   useFrame((state) => {
     const { forward, backward, left, right } = get();
+    const currentPosition: THREE.Vector3 | undefined =
+      rigidBodyRef.current?.translation();
+
+    const oscarTheDog: THREE.Object3D | undefined =
+      state.scene.getObjectByName("oscarTheDog");
+    const oscarTheDogVector: THREE.Vector3 = new THREE.Vector3();
+    oscarTheDog?.getWorldPosition(oscarTheDogVector);
+
+    console.log("PlayerPos", currentPosition);
+    console.log("oscarPos", oscarTheDogVector);
+    console.log(currentPosition?.dot(oscarTheDogVector));
 
     if (rigidBodyRef.current) {
       const velocity = rigidBodyRef.current.linvel();
@@ -44,7 +55,7 @@ function Player({}: Props) {
         ref={rigidBodyRef}
         colliders={false}
         mass={1}
-        position={[0, 10, 0]}
+        position={[0, 0, 0]}
         enabledRotations={[false, false, false]}
       >
         <CapsuleCollider args={[1, 0.75]} />
