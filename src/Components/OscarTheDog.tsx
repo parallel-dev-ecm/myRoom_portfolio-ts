@@ -23,6 +23,9 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
     if (groupRef.current) {
       groupRef.current.rotation.set(rotation.x, rotation.y, rotation.z);
     }
+    if (rigidBodyRef.current) {
+      rigidBodyRef.current.setTranslation(position, true);
+    }
   }, []);
 
   return (
@@ -33,7 +36,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
             name={"oscarTheDog"}
             object={oscar.scene}
             scale={[scale, scale, scale]}
-            position={position}
+            position={[0, 0, 0]}
           />
         </group>
       </RigidBody>

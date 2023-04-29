@@ -17,7 +17,7 @@ import Ground from "./Ground";
 type Props = {};
 
 function Main_scene({}: Props) {
-  const oscarPosition: THREE.Vector3 = new THREE.Vector3(-3, 0, 0);
+  const oscarPosition: THREE.Vector3 = new THREE.Vector3(-10, 0, 0);
   const oscarRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
   return (
