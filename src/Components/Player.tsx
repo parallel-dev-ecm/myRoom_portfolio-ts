@@ -25,10 +25,6 @@ function Player({}: Props) {
     const oscarTheDogVector: THREE.Vector3 = new THREE.Vector3();
     oscarTheDog?.getWorldPosition(oscarTheDogVector);
 
-    console.log("PlayerPos", currentPosition);
-    console.log("oscarPos", oscarTheDogVector);
-    console.log(currentPosition?.dot(oscarTheDogVector));
-
     if (rigidBodyRef.current) {
       const velocity = rigidBodyRef.current.linvel();
 

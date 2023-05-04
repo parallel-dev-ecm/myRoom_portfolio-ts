@@ -2,8 +2,7 @@ import { useMemo } from "react";
 
 import * as THREE from "three";
 
-import { Sphere, Stars, Cloud } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { Sphere, Stars } from "@react-three/drei";
 
 type Props = { numberOfStars: number; starScale: number };
 
@@ -44,15 +43,6 @@ const StarPoints = ({ numberOfStars, starScale }: Props) => {
         ))}
       </group>
 
-      <Stars
-        radius={100}
-        depth={50}
-        count={5000}
-        factor={4}
-        saturation={0}
-        fade
-        speed={1}
-      />
       {/* <Cloud
         opacity={0.1}
         speed={0.4} // Rotation speed

@@ -10,7 +10,7 @@ function Ground({}: Props) {
 
   useEffect(() => {
     if (rigidBodyRef.current) {
-      console.log(rigidBodyRef.current.translation());
+      //console.log(rigidBodyRef.current.translation());
     }
   });
 
@@ -23,10 +23,10 @@ function Ground({}: Props) {
           position={[0, -3, 0]}
         >
           <meshBasicMaterial
-            color={0xffffff}
+            color={0x000000}
             transparent={true}
-            opacity={0}
-            side={THREE.DoubleSide}
+            opacity={0.0}
+            side={THREE.FrontSide}
           />
         </Plane>
       </RigidBody>
