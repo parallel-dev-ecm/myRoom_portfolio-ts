@@ -2,28 +2,20 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
+import { getDotFromCamera } from "../functions";
 
 type Props = { position: THREE.Vector3 };
 let dotProduct: number;
-
-const getDot = (
-  playerForward: THREE.Vector3,
-  toOther: THREE.Vector3
-): number => {
-  const direction: THREE.Vector3 = playerForward.sub(toOther).normalize();
-  const dot: number = playerForward.dot(direction);
-  return dot;
-};
 
 function SpaceBoi({ position }: Props) {
   const spaceBoiRef = useRef<THREE.Group>(null);
   const model = useGLTF("./space_boi.glb");
   const scale = 5;
-  const cameraDirection: THREE.Vector3 = new THREE.Vector3();
 
   useFrame((state) => {
-    state.camera.getWorldDirection(cameraDirection);
-    dotProduct = getDot(cameraDirection, position);
+    if (spaceBoiRef.current) {
+      dotProduct = getDotFromCamera(spaceBoiRef.current.name, state);
+    }
     console.log("dotProduct: ", dotProduct);
   });
 

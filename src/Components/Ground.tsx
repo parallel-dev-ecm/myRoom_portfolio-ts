@@ -1,5 +1,5 @@
 import { Plane } from "@react-three/drei";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 
