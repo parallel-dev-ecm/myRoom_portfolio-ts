@@ -10,8 +10,6 @@ const getDot = (
   playerForward: THREE.Vector3,
   toOther: THREE.Vector3
 ): number => {
-  console.log("playerForward: ", playerForward);
-  console.log("toOther: ", toOther);
   const direction: THREE.Vector3 = playerForward.sub(toOther).normalize();
   const dot: number = playerForward.dot(direction);
   return dot;
