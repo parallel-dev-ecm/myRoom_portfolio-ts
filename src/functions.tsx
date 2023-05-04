@@ -7,11 +7,13 @@ export const getDotFromCamera = (
 ): number => {
   const camera = state.camera;
   const scene = state.scene;
+
   const cameraPosition = camera.position;
   const cameraDirection: THREE.Vector3 = new THREE.Vector3();
   camera.getWorldDirection(cameraDirection);
   const toOtherObject = scene.getObjectByName(objectToLookAtName);
   const toOtherVector: THREE.Vector3 = new THREE.Vector3();
+
   if (toOtherObject) {
     toOtherVector.copy(toOtherObject.position);
     const direction: THREE.Vector3 = new THREE.Vector3(

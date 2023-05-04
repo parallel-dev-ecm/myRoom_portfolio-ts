@@ -19,7 +19,12 @@ type Props = {};
 function Main_scene({}: Props) {
   const oscarPosition: THREE.Vector3 = new THREE.Vector3(-10, 0, 0);
   const oscarRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, -7, 150);
+  const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, 130, 250);
+  const spaceBoiRotation: THREE.Vector3 = new THREE.Vector3(
+    -Math.PI * 0.3,
+    -Math.PI * 1.2,
+    0
+  );
 
   return (
     <KeyboardControls
@@ -35,7 +40,6 @@ function Main_scene({}: Props) {
         <Suspense fallback={<LoadingScreen />}>
           <Physics>
             <Debug />
-
             <OscarTheDog
               scale={0.006}
               position={oscarPosition}
@@ -53,7 +57,7 @@ function Main_scene({}: Props) {
             fade
             speed={0.5}
           />
-          <SpaceBoi position={spaceBoiPosition} />
+          <SpaceBoi position={spaceBoiPosition} rotation={spaceBoiRotation} />
           <PointerLockControls />
           <StarPoints numberOfStars={1000} starScale={0.09} />
           <ambientLight color={[1, 0, 0.1]} intensity={0.7} />
