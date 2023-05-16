@@ -50,7 +50,7 @@ function Main_scene({}: Props) {
 
           <Physics>
             <Debug />
-            <FallingText text="Hello" minDistanceToTrigger={20} />
+            {/* <FallingText text="Hello" minDistanceToTrigger={20} /> */}
             <OscarTheDog
               scale={0.006}
               position={oscarPosition}

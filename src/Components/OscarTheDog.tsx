@@ -1,10 +1,14 @@
-import { useGLTF, useAnimations, Text3D } from "@react-three/drei";
+import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { getDistanceToPlayer, getDotFromCamera } from "../functions";
+import {
+  getDistanceToPlayer,
+  getDotFromCamera,
+  getRotationQuaternionToPlayer,
+} from "../functions";
 import { useFrame } from "@react-three/fiber";
-import { gsap } from "gsap";
+import { FallingText } from "./FallingText";
 
 type OscarProps = {
   scale: number;
@@ -18,7 +22,9 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
   const oscar = useGLTF("./oscar_the_dog.glb");
   const rigidBodyRef = useRef<RigidBodyApi | null>(null);
 
-  const groupRef = useRef<THREE.Group>(null);
+  const oscarRef = useRef<THREE.Group>(null);
+  const parentGroupRef = useRef<THREE.Group>(null);
+
   const oscarAngryTextRef = useRef<THREE.Group>(null);
 
   const animations = useAnimations(oscar.animations, oscar.scene);
@@ -28,51 +34,50 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
   useEffect(() => {
     const idle = animations.actions.Idle;
     idle?.play();
-    if (groupRef.current) {
-      groupRef.current.rotation.set(rotation.x, rotation.y, rotation.z);
+    if (oscarRef.current) {
+      oscarRef.current.rotation.set(rotation.x, rotation.y, rotation.z);
     }
   }, []);
 
   useFrame((state) => {
-    if (groupRef.current && rigidBodyRef.current && oscarAngryTextRef.current) {
-      groupRef.current.lookAt(state.camera.position);
-      oscarAngryTextRef.current.lookAt(state.camera.position);
+    if (
+      oscarRef.current &&
+      rigidBodyRef.current &&
+      oscarAngryTextRef.current &&
+      parentGroupRef.current
+    ) {
+      //parentGroupRef.current.lookAt(state.camera.position);
+      // oscarAngryTextRef.current.lookAt(state.camera.position);
 
       dotProduct = getDotFromCamera({
         state: state,
-        objectToGetDistanceFrom: groupRef.current.name,
+        objectToGetDistanceFrom: oscarRef.current.name,
       });
 
       distance = getDistanceToPlayer({
         state: state,
         rapierVector: rigidBodyRef.current.translation(),
       });
-      if (distance > 20) {
-        gsap.to(oscarAngryTextRef.current.scale, {
-          x: 1,
-          y: 1,
-          z: 1,
-        });
+      // const quaternion = getRotationQuaternionToPlayer({
+      //   state,
+      //   rapierVector: rigidBodyRef.current.translation(),
+      // });
+
+      if (distance > 60) {
       } else {
-        gsap.to(oscarAngryTextRef.current.scale, { x: 0, y: 0, z: 0 });
       }
     }
   });
 
   return (
     <>
-      <group position={position}>
-        <group ref={oscarAngryTextRef}>
-          <Text3D font={"./myFont.json"} position={[-2, -1, 0]}>
-            Where are you going?
-          </Text3D>
-          <Text3D font={"./myFont.json"} position={[0, -3, 0]}>
-            Come back!
-          </Text3D>
+      <group ref={parentGroupRef} position={position}>
+        <group ref={oscarAngryTextRef} rotation={[0, 90, 0]} visible={true}>
+          <FallingText text="Where are you going?" minDistanceToTrigger={20} />
         </group>
 
         <RigidBody ref={rigidBodyRef} friction={0.3}>
-          <group name="oscarTheDog" ref={groupRef}>
+          <group name="oscarTheDog" ref={oscarRef} position={[0, -2, 0]}>
             <primitive
               name={"oscarTheDog"}
               object={oscar.scene}
