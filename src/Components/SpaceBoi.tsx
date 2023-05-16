@@ -20,7 +20,6 @@ function SpaceBoi({ position, rotation }: Props) {
     if (spaceBoiRef.current) {
       dotProduct = getDotFromCamera(spaceBoiRef.current.name, state);
       distanceToPlayer = getDistanceToPlayer(state, spaceBoiRef.current.name);
-      console.log(distanceToPlayer);
 
       if (dotProduct > 0.8 && distanceToPlayer < 310) {
         gsap.to(spaceBoiRef.current.scale, {
@@ -35,7 +34,6 @@ function SpaceBoi({ position, rotation }: Props) {
     if (textRef.current) {
       textRef.current.lookAt(state.camera.position);
     }
-    console.log("SpaceBoi: ", dotProduct);
   });
 
   return (

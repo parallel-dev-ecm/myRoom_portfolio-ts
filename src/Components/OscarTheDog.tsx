@@ -2,6 +2,8 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { getDistanceToPlayer, getDotFromCamera } from "../functions";
+import { useFrame } from "@react-three/fiber";
 
 type OscarProps = {
   scale: number;
@@ -16,6 +18,8 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
   const rigidBodyRef = useRef<RigidBodyApi | null>(null);
   const groupRef = useRef<THREE.Group>(null);
   const animations = useAnimations(oscar.animations, oscar.scene);
+  let dotProduct: number;
+  let distance: number;
 
   useEffect(() => {
     const idle = animations.actions.Idle;
@@ -27,6 +31,18 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       rigidBodyRef.current.setTranslation(position, true);
     }
   }, []);
+
+  useFrame((state) => {
+    if (groupRef.current && rigidBodyRef.current) {
+      dotProduct = getDotFromCamera(groupRef.current.name, state);
+      distance = getDistanceToPlayer(
+        state,
+        undefined,
+        rigidBodyRef.current.translation()
+      );
+      console.log("distance: ", distance);
+    }
+  });
 
   return (
     <>

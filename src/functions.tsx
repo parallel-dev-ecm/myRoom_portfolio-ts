@@ -5,22 +5,31 @@ import * as THREE from "three";
 
 export const getDistanceToPlayer = (
   state: RootState,
-  objectToGetDistanceFrom: string
+  objectToGetDistanceFrom?: string,
+  rapierVector?: THREE.Vector3
 ): number => {
   const camera = state.camera;
+  const cameraPosition: THREE.Vector3 = camera.position;
   const scene = state.scene;
 
-  const cameraPosition: THREE.Vector3 = camera.position;
-  const toOtherObject = scene.getObjectByName(objectToGetDistanceFrom);
-  const toOtherVector: THREE.Vector3 = new THREE.Vector3();
-
-  if (toOtherObject) {
-    toOtherVector.copy(toOtherObject.position);
-
-    const distance: number = cameraPosition.distanceTo(toOtherVector);
+  if (rapierVector) {
+    const distance: number = cameraPosition.distanceTo(rapierVector);
     return distance;
   } else {
-    return 0;
+    if (objectToGetDistanceFrom) {
+      const toOtherObject = scene.getObjectByName(objectToGetDistanceFrom);
+      const toOtherVector: THREE.Vector3 = new THREE.Vector3();
+
+      if (toOtherObject) {
+        toOtherVector.copy(toOtherObject.position);
+        const distance: number = cameraPosition.distanceTo(toOtherVector);
+        return distance;
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
   }
 };
 
