@@ -14,6 +14,7 @@ import { Physics, Debug } from "@react-three/rapier";
 import Player from "./Player";
 import SpaceBoi from "./SpaceBoi";
 import Ground from "./Ground";
+import { FallingText } from "./FallingText";
 
 type Props = {};
 
@@ -49,6 +50,7 @@ function Main_scene({}: Props) {
 
           <Physics>
             <Debug />
+            <FallingText text="Hello" minDistanceToTrigger={20} />
             <OscarTheDog
               scale={0.006}
               position={oscarPosition}
