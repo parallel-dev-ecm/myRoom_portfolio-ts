@@ -1,6 +1,29 @@
 import { RootState } from "@react-three/fiber";
 import * as THREE from "three";
 
+//Camera = player
+
+export const getDistanceToPlayer = (
+  state: RootState,
+  objectToGetDistanceFrom: string
+): number => {
+  const camera = state.camera;
+  const scene = state.scene;
+
+  const cameraPosition: THREE.Vector3 = camera.position;
+  const toOtherObject = scene.getObjectByName(objectToGetDistanceFrom);
+  const toOtherVector: THREE.Vector3 = new THREE.Vector3();
+
+  if (toOtherObject) {
+    toOtherVector.copy(toOtherObject.position);
+
+    const distance: number = cameraPosition.distanceTo(toOtherVector);
+    return distance;
+  } else {
+    return 0;
+  }
+};
+
 export const getDotFromCamera = (
   objectToLookAtName: string,
   state: RootState
