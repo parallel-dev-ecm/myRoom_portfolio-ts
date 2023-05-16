@@ -30,7 +30,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
 
   return (
     <>
-      <RigidBody ref={rigidBodyRef} friction={0.1}>
+      <RigidBody ref={rigidBodyRef} friction={0.3}>
         <group name="oscarTheDog" ref={groupRef}>
           <primitive
             name={"oscarTheDog"}

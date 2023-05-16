@@ -15,6 +15,8 @@ function SpaceBoi({ position, rotation }: Props) {
   const scale = 8;
   const textRef = useRef<THREE.Group>(null);
 
+  
+
   useFrame((state) => {
     if (spaceBoiRef.current) {
       dotProduct = getDotFromCamera(spaceBoiRef.current.name, state);

@@ -1,3 +1,4 @@
+/* Main R3F SCENE  */
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import StarPoints from "./StarPoints";
@@ -17,6 +18,10 @@ import Ground from "./Ground";
 type Props = {};
 
 function Main_scene({}: Props) {
+  /* Controls */
+  /* Oscar = Dog Model */
+  // spaceBoi = Black doodle with orbiting planets
+
   const oscarPosition: THREE.Vector3 = new THREE.Vector3(-10, 0, 0);
   const oscarRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, 130, 250);
@@ -27,6 +32,7 @@ function Main_scene({}: Props) {
   );
 
   return (
+    // AWSD controls
     <KeyboardControls
       map={[
         { name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -37,7 +43,10 @@ function Main_scene({}: Props) {
       ]}
     >
       <Canvas camera={{ position: [0, 0, -1] }}>
+        {/* Loading screen */}
         <Suspense fallback={<LoadingScreen />}>
+          <PointerLockControls />
+
           <Physics>
             <Debug />
             <OscarTheDog
@@ -48,6 +57,7 @@ function Main_scene({}: Props) {
             <Player />
             <Ground />
           </Physics>
+          {/* Stars Background */}
           <Stars
             radius={100}
             depth={50}
@@ -58,8 +68,10 @@ function Main_scene({}: Props) {
             speed={0.5}
           />
           <SpaceBoi position={spaceBoiPosition} rotation={spaceBoiRotation} />
-          <PointerLockControls />
+          {/* Stars in env not in background */}
           <StarPoints numberOfStars={1000} starScale={0.09} />
+
+          {/* Lights */}
           <ambientLight color={[1, 0, 0.1]} intensity={0.7} />
           <ambientLight color={[1, 1, 1]} intensity={0.4} />
         </Suspense>
