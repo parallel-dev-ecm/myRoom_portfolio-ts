@@ -34,12 +34,14 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
 
   useFrame((state) => {
     if (groupRef.current && rigidBodyRef.current) {
-      dotProduct = getDotFromCamera(groupRef.current.name, state);
-      distance = getDistanceToPlayer(
-        state,
-        undefined,
-        rigidBodyRef.current.translation()
-      );
+      dotProduct = getDotFromCamera({
+        state: state,
+        objectToGetDistanceFrom: groupRef.current.name,
+      });
+      distance = getDistanceToPlayer({
+        state: state,
+        rapierVector: rigidBodyRef.current.translation(),
+      });
       console.log("distance: ", distance);
     }
   });

@@ -18,8 +18,14 @@ function SpaceBoi({ position, rotation }: Props) {
 
   useFrame((state) => {
     if (spaceBoiRef.current) {
-      dotProduct = getDotFromCamera(spaceBoiRef.current.name, state);
-      distanceToPlayer = getDistanceToPlayer(state, spaceBoiRef.current.name);
+      dotProduct = getDotFromCamera({
+        state: state,
+        objectToGetDistanceFrom: spaceBoiRef.current.name,
+      });
+      distanceToPlayer = getDistanceToPlayer({
+        state: state,
+        objectToGetDistanceFrom: spaceBoiRef.current.name,
+      });
 
       if (dotProduct > 0.8 && distanceToPlayer < 310) {
         gsap.to(spaceBoiRef.current.scale, {
