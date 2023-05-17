@@ -17,8 +17,6 @@ function Player({}: Props) {
 
   useFrame((state) => {
     const { forward, backward, left, right } = get();
-    const currentPosition: THREE.Vector3 | undefined =
-      rigidBodyRef.current?.translation();
 
     const oscarTheDog: THREE.Object3D | undefined =
       state.scene.getObjectByName("oscarTheDog");

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import * as THREE from "three";
 
-import { Sphere, Stars } from "@react-three/drei";
+import { Sphere } from "@react-three/drei";
 
 type Props = { numberOfStars: number; starScale: number };
 
