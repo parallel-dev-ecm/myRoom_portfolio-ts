@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { RigidBody, RigidBodyApi, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
-import { getDistanceToPlayer, getDotFromCamera } from "../functions";
+import { getDistanceToPlayer } from "../functions";
 import * as THREE from "three";
 import { RigidBodyType } from "@dimforge/rapier3d";
 import { WorldApi } from "@react-three/rapier/dist/declarations/src/types";
@@ -41,7 +41,6 @@ export function FallingText({
   const fallingTextRef = useRef<THREE.Group>(null);
   const [distance, setDistance] = useState<number>(0);
   const { world } = useRapier();
-  let dot;
 
   useEffect(() => {
     rigidBodyRefs.current = rigidBodyRefs.current.slice(0, characters.length);
@@ -49,15 +48,12 @@ export function FallingText({
 
   useFrame((state) => {
     if (fallingTextRef.current) {
-      const name = fallingTextRef.current.name;
-      dot = getDotFromCamera({ state, objectToGetDistanceFrom: name });
       setDistance(
         getDistanceToPlayer({
           state: state,
           rapierVector: fallingTextRef.current.position,
         })
       );
-      console.log(distance);
 
       //   rigidBodyRefs.current.forEach((rigidBody) => {
       //     const quaternion: THREE.Quaternion = getRotationQuaternionToPlayer({

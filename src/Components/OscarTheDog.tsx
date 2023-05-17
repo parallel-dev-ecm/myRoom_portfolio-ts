@@ -2,7 +2,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { getDistanceToPlayer, getDotFromCamera } from "../functions";
+import { getDistanceToPlayer } from "../functions";
 import { useFrame } from "@react-three/fiber";
 import { FallingText } from "./FallingText";
 
@@ -25,7 +25,6 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
   const textDirection: THREE.Vector3 = new THREE.Vector3();
 
   const animations = useAnimations(oscar.animations, oscar.scene);
-  let dotProduct: number;
   let distance: number;
 
   useEffect(() => {
@@ -53,11 +52,6 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       //   oscarAngryTextRef.current.position,
       //   state.camera.position
       // );
-
-      dotProduct = getDotFromCamera({
-        state: state,
-        rapierVector: rigidBodyRef.current.translation(),
-      });
 
       distance = getDistanceToPlayer({
         state: state,

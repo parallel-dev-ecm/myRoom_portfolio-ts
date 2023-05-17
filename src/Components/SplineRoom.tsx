@@ -3,7 +3,6 @@
 */
 
 import useSpline from "@splinetool/r3f-spline";
-import { OrthographicCamera } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Scene({ ...props }) {
