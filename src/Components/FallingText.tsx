@@ -6,12 +6,14 @@ import { getDistanceToPlayer } from "../functions";
 import * as THREE from "three";
 import { RigidBodyType } from "@dimforge/rapier3d";
 import { WorldApi } from "@react-three/rapier/dist/declarations/src/types";
+
 type fallingTextProps = {
   text: string;
   minDistanceToTrigger: number;
   name: string;
   position: THREE.Vector3;
   textScale: number;
+  getsBackUp: boolean;
 };
 
 function setLettersToDynamic(
@@ -34,6 +36,7 @@ export function FallingText({
   name,
   position,
   textScale,
+  getsBackUp,
 }: fallingTextProps) {
   const characters = text.split("");
   const rigidBodyRefs = useRef<(RigidBodyApi | null)[]>([]);
@@ -47,11 +50,12 @@ export function FallingText({
   }, [characters.length]);
 
   useFrame((state) => {
-    if (fallingTextRef.current) {
+    if (fallingTextRef.current && rigidBodyRefs.current) {
+      const centerRef = Math.floor((rigidBodyRefs.current.length - 1) * 0.5);
       setDistance(
         getDistanceToPlayer({
           state: state,
-          rapierVector: fallingTextRef.current.position,
+          rapierVector: rigidBodyRefs.current[centerRef]?.translation(),
         })
       );
 
@@ -81,19 +85,17 @@ export function FallingText({
         //   });
         // }
       }
-      if (distance < minDistanceToTrigger) {
+      if (distance < minDistanceToTrigger && getsBackUp) {
         rigidBodyRefs.current.forEach((rigidBody) => {
           if (rigidBody) {
             const rb = world.getRigidBody(rigidBody.handle);
             rb?.setGravityScale(0.1, true);
 
-            if (rigidBody.translation().y < 0.5) {
+            if (rigidBody.translation().y < 0) {
               const linvel = new THREE.Vector3(0, 1, 0);
 
               rigidBody.setLinvel(linvel, true);
-            }
-
-            if (rigidBody.translation().y > 0.5) {
+            } else if (rigidBody.translation().y > 2) {
               const linvel = new THREE.Vector3(0, -1, 0);
               rigidBody.setLinvel(linvel, true);
             }
@@ -108,10 +110,10 @@ export function FallingText({
       <group ref={fallingTextRef} name={name} position={position}>
         {characters.map((char, index) => (
           <RigidBody
-            friction={0.1}
             type="fixed"
             key={index}
             ref={(ref) => (rigidBodyRefs.current[index] = ref)}
+            friction={0}
           >
             <Text3D
               key={index}

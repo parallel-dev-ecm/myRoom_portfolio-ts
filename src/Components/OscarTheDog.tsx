@@ -73,11 +73,12 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       <group ref={parentGroupRef} position={position}>
         <group ref={oscarAngryTextRef} rotation={[0, 90, 0]} visible={true}>
           <FallingText
-            text="Hello!"
-            position={new THREE.Vector3(0, -3, 0)}
-            minDistanceToTrigger={20}
+            text="Hello My name is Oscar"
+            position={new THREE.Vector3(0, -2, 0)}
+            minDistanceToTrigger={15}
             name="oscarFallingText"
             textScale={1}
+            getsBackUp={false}
           />
         </group>
 

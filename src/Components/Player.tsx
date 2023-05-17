@@ -41,6 +41,19 @@ function Player({}: Props) {
         y: velocity.y,
         z: direction.z,
       });
+      // const world = rapier.world.raw();
+      // const ray = world.castRay(
+      //   new RAPIER.Ray(rigidBodyRef.current.translation(), {
+      //     x: 0,
+      //     y: -1,
+      //     z: 0,
+      //   }),
+      //   0.01,
+      //   true
+      // );
+      // const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1.75;
+      // if (jump && grounded)
+      //   rigidBodyRef.current.setLinvel({ x: 0, y: 7.5, z: 0 });
     }
   });
   return (
@@ -49,6 +62,7 @@ function Player({}: Props) {
         ref={rigidBodyRef}
         colliders={false}
         mass={1}
+        gravityScale={9.81}
         position={[0, 0, 0]}
         enabledRotations={[false, false, false]}
       >

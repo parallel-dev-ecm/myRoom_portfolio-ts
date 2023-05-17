@@ -12,6 +12,11 @@ interface inputData {
   objectToGetDistanceFrom?: string;
   rapierVector?: THREE.Vector3;
 }
+export function getRandomNumber(min: number, max: number): number {
+  return Math.random() * (max - min + 1) + min;
+}
+
+// Example usage:
 
 export const removeRigidBody = (
   world: WorldApi,
