@@ -2,11 +2,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, RigidBodyApi } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import {
-  getDistanceToPlayer,
-  getDotFromCamera,
-  getRotationQuaternionToPlayer,
-} from "../functions";
+import { getDistanceToPlayer, getDotFromCamera } from "../functions";
 import { useFrame } from "@react-three/fiber";
 import { FallingText } from "./FallingText";
 
@@ -87,6 +83,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
             position={new THREE.Vector3(0, -3, 0)}
             minDistanceToTrigger={20}
             name="oscarFallingText"
+            textScale={1}
           />
         </group>
 

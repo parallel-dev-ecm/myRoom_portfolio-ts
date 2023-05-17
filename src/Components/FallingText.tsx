@@ -2,20 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { RigidBody, RigidBodyApi, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
-import {
-  getDistanceToPlayer,
-  getDotFromCamera,
-  getRotationQuaternionToPlayer,
-} from "../functions";
+import { getDistanceToPlayer, getDotFromCamera } from "../functions";
 import * as THREE from "three";
 import { RigidBodyType } from "@dimforge/rapier3d";
 import { WorldApi } from "@react-three/rapier/dist/declarations/src/types";
-
 type fallingTextProps = {
   text: string;
   minDistanceToTrigger: number;
   name: string;
   position: THREE.Vector3;
+  textScale: number;
 };
 
 function setLettersToDynamic(
@@ -37,6 +33,7 @@ export function FallingText({
   minDistanceToTrigger,
   name,
   position,
+  textScale,
 }: fallingTextProps) {
   const characters = text.split("");
   const rigidBodyRefs = useRef<(RigidBodyApi | null)[]>([]);
@@ -51,7 +48,6 @@ export function FallingText({
   }, [characters.length]);
 
   useFrame((state) => {
-    const camera = state.camera;
     if (fallingTextRef.current) {
       const name = fallingTextRef.current.name;
       dot = getDotFromCamera({ state, objectToGetDistanceFrom: name });
@@ -61,6 +57,8 @@ export function FallingText({
           rapierVector: fallingTextRef.current.position,
         })
       );
+      console.log(distance);
+
       //   rigidBodyRefs.current.forEach((rigidBody) => {
       //     const quaternion: THREE.Quaternion = getRotationQuaternionToPlayer({
       //       rapierVector: rigidBody?.translation(),
@@ -71,6 +69,7 @@ export function FallingText({
 
       if (distance > minDistanceToTrigger) {
         setLettersToDynamic(rigidBodyRefs, world);
+
         // if (distance > minDistanceToTrigger + 20) {
         //   rigidBodyRefs.current.forEach((rigidBody) => {
         //     if (rigidBody) {
@@ -122,7 +121,7 @@ export function FallingText({
               key={index}
               font={"./myFont.json"}
               position={[index * 0.5, 0, 0]}
-              scale={1}
+              scale={textScale}
             >
               {char}
             </Text3D>

@@ -33,7 +33,7 @@ export const getDirectionToPlayer = (
   return direction;
 };
 
-export const getRotationQuaternionToPlayer = (
+export const getDirectionDifference = (
   objectDirection: THREE.Vector3,
   objectPosition: THREE.Vector3,
   playerPosition: THREE.Vector3
@@ -47,6 +47,8 @@ export const getRotationQuaternionToPlayer = (
     objectDirection,
     directionToPlayer
   );
+
+  return directionDifference;
 };
 
 export const getDistanceToPlayer = (inputData: inputData): number => {

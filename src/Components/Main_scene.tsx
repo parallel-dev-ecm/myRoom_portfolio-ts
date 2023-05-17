@@ -14,7 +14,6 @@ import { Physics, Debug } from "@react-three/rapier";
 import Player from "./Player";
 import SpaceBoi from "./SpaceBoi";
 import Ground from "./Ground";
-import { FallingText } from "./FallingText";
 
 type Props = {};
 
