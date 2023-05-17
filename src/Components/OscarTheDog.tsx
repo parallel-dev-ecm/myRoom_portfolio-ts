@@ -26,6 +26,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
   const parentGroupRef = useRef<THREE.Group>(null);
 
   const oscarAngryTextRef = useRef<THREE.Group>(null);
+  const textDirection: THREE.Vector3 = new THREE.Vector3();
 
   const animations = useAnimations(oscar.animations, oscar.scene);
   let dotProduct: number;
@@ -46,12 +47,20 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       oscarAngryTextRef.current &&
       parentGroupRef.current
     ) {
-      //parentGroupRef.current.lookAt(state.camera.position);
+      oscarRef.current.lookAt(state.camera.position);
       // oscarAngryTextRef.current.lookAt(state.camera.position);
+
+      oscarAngryTextRef.current.getWorldDirection(textDirection);
+
+      // getRotationQuaternionToPlayer(
+      //   textDirection,
+      //   oscarAngryTextRef.current.position,
+      //   state.camera.position
+      // );
 
       dotProduct = getDotFromCamera({
         state: state,
-        objectToGetDistanceFrom: oscarRef.current.name,
+        rapierVector: rigidBodyRef.current.translation(),
       });
 
       distance = getDistanceToPlayer({
@@ -73,11 +82,16 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
     <>
       <group ref={parentGroupRef} position={position}>
         <group ref={oscarAngryTextRef} rotation={[0, 90, 0]} visible={true}>
-          <FallingText text="Where are you going?" minDistanceToTrigger={20} />
+          <FallingText
+            text="Hello!"
+            position={new THREE.Vector3(0, -3, 0)}
+            minDistanceToTrigger={20}
+            name="oscarFallingText"
+          />
         </group>
 
-        <RigidBody ref={rigidBodyRef} friction={0.3}>
-          <group name="oscarTheDog" ref={oscarRef} position={[0, -2, 0]}>
+        <RigidBody ref={rigidBodyRef} friction={0.3} position={[0, 0, 2]}>
+          <group name="oscarTheDog" ref={oscarRef} position={[0, 0, 0]}>
             <primitive
               name={"oscarTheDog"}
               object={oscar.scene}
