@@ -73,7 +73,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
       <group ref={parentGroupRef} position={position}>
         <group ref={oscarAngryTextRef} rotation={[0, 90, 0]} visible={true}>
           <FallingText
-            text="Hello My name is Oscar"
+            text="Hello friend!"
             position={new THREE.Vector3(0, -2, 0)}
             minDistanceToTrigger={10}
             name="oscarFallingText"
@@ -83,7 +83,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
           />
         </group>
 
-        <RigidBody ref={rigidBodyRef} friction={0.3} position={[0, 0, 2]}>
+        <RigidBody ref={rigidBodyRef} friction={1} position={[0, 0, 2]}>
           <group name="oscarTheDog" ref={oscarRef} position={[0, 0, 0]}>
             <primitive
               name={"oscarTheDog"}

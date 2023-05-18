@@ -76,7 +76,6 @@ export function FallingText({
             rapierVector: rigidBodyRefs.current[centerRef]?.translation(),
           })
         );
-        console.log(dot);
 
         if (distance < minDistanceToTrigger) {
           if (!viewed) {
@@ -87,35 +86,38 @@ export function FallingText({
                 if (rb) {
                   rb.setGravityScale(0, true);
                   const linvel = new THREE.Vector3(
-                    getRandomNumber(-0.00005, 0.00005),
-                    getRandomNumber(0, 0.00005),
-                    getRandomNumber(-0.00005, 0.00005)
+                    getRandomNumber(-0.0005, 0.0005),
+                    getRandomNumber(0, 0.0005),
+                    getRandomNumber(0.0005, -0.0005)
                   );
+                  rb.setAngularDamping(1);
+                  rb.setLinearDamping(1);
                   rb.setLinvel(linvel, true);
                 }
               }
             });
-            setViewed(true);
           }
+          setViewed(true);
         }
+        if (distance > minDistanceToTrigger && getsBackUp) {
+          // rigidBodyRefs.current.forEach((rigidBody) => {
+          //   if (rigidBody) {
+          //     rigidBody.lockRotations(true, true);
+          //     if (rigidBody.translation().y < -2) {
+          //       rigidBody.resetForces(true);
+          //       const linvel = new THREE.Vector3(0, 1, 0);
+          //       rigidBody.setLinvel(linvel, true);
+          //     } else if (rigidBody.translation().y > 2) {
+          //       rigidBody.resetForces(true);
+          //       const linvel = new THREE.Vector3(0, -1, 0);
+          //       rigidBody.setLinvel(linvel, true);
+          //     }
+          //   }
+          // });
+        }
+
         // if (distance < minDistanceToTrigger && getsBackUp) {
-        //   rigidBodyRefs.current.forEach((rigidBody) => {
-        //     if (rigidBody) {
-        //       const rb = world.getRigidBody(rigidBody.handle);
-
-        //       if (rigidBody.translation().y < -2) {
-        //         rigidBody.resetForces(true);
-        //         const linvel = new THREE.Vector3(0, 1, 0);
-
-        //         rigidBody.setLinvel(linvel, true);
-        //       } else if (rigidBody.translation().y > 2) {
-        //         rigidBody.resetForces(true);
-
-        //         const linvel = new THREE.Vector3(0, -1, 0);
-        //         rigidBody.setLinvel(linvel, true);
-        //       }
-        //     }
-        //   });
+        //   setLettersToDynamic(rigidBodyRefs, world);
         // }
       } else if (!distanceBased) {
         const centerRef = Math.floor((rigidBodyRefs.current.length - 1) * 0.5);
