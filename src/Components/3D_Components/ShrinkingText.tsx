@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
 import * as THREE from "three";
@@ -14,12 +14,20 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
   const mainGroupRef = useRef<THREE.Group>(null);
 
   const characters = text.split("");
-  let elim: boolean = false;
   const shrinkingTextRefs = useRef<THREE.Group[]>([]);
+  const tl: GSAPTimeline = gsap.timeline();
 
-  const shrinkTl = gsap.timeline({
-    repeat: -1,
-  });
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const letters = shrinkingTextRefs.current;
+      if (letters) {
+        letters.forEach((char) => {
+          tl.add(gsap.to(char.scale, { x: 0, y: 0, z: 0, duration: 0.1 }));
+        });
+      }
+    }, mainGroupRef); // <- Scope!
+    return () => ctx.revert(); // <- Cleanup!
+  }, []);
 
   useEffect(() => {
     shrinkingTextRefs.current = shrinkingTextRefs.current.slice(
@@ -40,18 +48,9 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
       });
 
       if (dot < 0.8) {
-        elim = true;
+        tl.play();
       } else {
-        elim = false;
-      }
-
-      if (elim) {
-        shrinkingTextRefs.current.forEach((charGroup) => {
-          shrinkTl.to(charGroup.scale, { x: 0, y: 0, z: 0, duration: 0.1 });
-        });
-        shrinkTl.play();
-      } else {
-        shrinkTl.reverse();
+        tl.reverse();
       }
     }
   });

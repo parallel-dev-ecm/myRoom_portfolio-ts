@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { getDotFromCamera, getDistanceToPlayer } from "../../functions";
 import { gsap } from "gsap";
@@ -14,6 +14,23 @@ function SpaceBoi({ position, rotation }: Props) {
   const spaceBoiRef = useRef<THREE.Group>(null);
   const model = useGLTF("./space_boi.glb");
   const scale = 8;
+  const tl: GSAPTimeline = gsap.timeline();
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const spaceBoy = spaceBoiRef.current;
+      if (spaceBoy) {
+        tl.add(
+          gsap.to(spaceBoiRef.current.scale, {
+            x: scale,
+            y: scale,
+            z: scale,
+          })
+        );
+      }
+    }, spaceBoiRef); // <- Scope!
+    return () => ctx.revert(); // <- Cleanup!
+  }, []);
 
   useFrame((state) => {
     if (spaceBoiRef.current) {
@@ -26,21 +43,22 @@ function SpaceBoi({ position, rotation }: Props) {
         objectToGetDistanceFrom: spaceBoiRef.current.name,
       });
 
-      if (dotProduct > 0.6 && distanceToPlayer < 310) {
-        gsap.to(spaceBoiRef.current.scale, {
-          x: scale,
-          y: scale,
-          z: scale,
-        });
+      if (dotProduct > 0.9 && distanceToPlayer < 310) {
+        tl.play();
       } else {
-        gsap.to(spaceBoiRef.current.scale, { x: 0, y: 0, z: 0 });
+        tl.reverse();
       }
     }
   });
 
   return (
     <>
-      <group ref={spaceBoiRef} position={position} name={"spaceBoiWithText"}>
+      <group
+        ref={spaceBoiRef}
+        position={position}
+        name={"spaceBoiWithText"}
+        scale={0}
+      >
         <primitive
           object={model.scene}
           rotation={[rotation.x, rotation.y, rotation.z]}
