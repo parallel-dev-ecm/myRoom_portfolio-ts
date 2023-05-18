@@ -29,25 +29,25 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
   }, [characters.length]);
 
   useFrame((state) => {
-    shrinkTl.duration(1000);
-
     if (mainGroupRef.current) {
       mainGroupRef.current.lookAt(state.camera.position);
     }
+
     if (shrinkingTextRefs.current) {
       const dot = getDotFromCamera({
         state,
         objectToGetDistanceFrom: name,
       });
 
-      if (dot < 0.9) {
+      if (dot < 0.8) {
         elim = true;
       } else {
         elim = false;
       }
+
       if (elim) {
         shrinkingTextRefs.current.forEach((charGroup) => {
-          shrinkTl.to(charGroup.scale, { x: 0, y: 0, z: 0 });
+          shrinkTl.to(charGroup.scale, { x: 0, y: 0, z: 0, duration: 0.1 });
         });
         shrinkTl.play();
       } else {

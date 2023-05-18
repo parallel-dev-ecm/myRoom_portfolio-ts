@@ -46,12 +46,15 @@ function SpaceBoi({ position, rotation }: Props) {
           rotation={[rotation.x, rotation.y, rotation.z]}
         />
 
-        <group name="introText" position={[20, 10, 0]}>
+        <group name="groupIntroTextLeft" position={[20, 10, 0]}>
           <ShrinkingText
             text="Hello Welcome To My world"
-            name="leftSideSpaceBoyText"
+            name="introTextLeft"
             textScale={1}
           />
+        </group>
+        <group name="groupIntroTextRight" position={[-20, 10, 0]}>
+          <ShrinkingText text="Hello " name="introTextRight" textScale={1} />
         </group>
       </group>
     </>
