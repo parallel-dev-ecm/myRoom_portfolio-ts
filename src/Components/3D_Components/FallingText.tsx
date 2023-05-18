@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { RigidBody, RigidBodyApi, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
-import { getDistanceToPlayer, getDotFromCamera } from "../../functions";
+import {
+  getDistanceToPlayer,
+  getDotFromCamera,
+  getRandomNumber,
+} from "../../functions";
 import * as THREE from "three";
 import { RigidBodyType } from "@dimforge/rapier3d";
 import { WorldApi } from "@react-three/rapier/dist/declarations/src/types";
@@ -44,8 +48,9 @@ export function FallingText({
   const rigidBodyRefs = useRef<(RigidBodyApi | null)[]>([]);
 
   const fallingTextRef = useRef<THREE.Group>(null);
-  const [distance, setDistance] = useState<number>(0);
+  const [distance, setDistance] = useState<number>(100);
   const [dot, setDot] = useState<number>(0);
+  const [viewed, setViewed] = useState<boolean>(false);
 
   const { world } = useRapier();
 
@@ -57,36 +62,61 @@ export function FallingText({
     if (fallingTextRef.current && rigidBodyRefs.current) {
       if (distanceBased) {
         const centerRef = Math.floor((rigidBodyRefs.current.length - 1) * 0.5);
+
         setDistance(
           getDistanceToPlayer({
             state: state,
             rapierVector: rigidBodyRefs.current[centerRef]?.translation(),
           })
         );
+        console.log(distance);
+        setDot(
+          getDotFromCamera({
+            state: state,
+            rapierVector: rigidBodyRefs.current[centerRef]?.translation(),
+          })
+        );
+        console.log(dot);
 
-        if (distance > minDistanceToTrigger) {
-          setLettersToDynamic(rigidBodyRefs, world);
-        }
-        if (distance < minDistanceToTrigger && getsBackUp) {
-          rigidBodyRefs.current.forEach((rigidBody) => {
-            if (rigidBody) {
-              const rb = world.getRigidBody(rigidBody.handle);
-              rb?.setGravityScale(0.1, true);
-
-              if (rigidBody.translation().y < -2) {
-                rigidBody.resetForces(true);
-                const linvel = new THREE.Vector3(0, 1, 0);
-
-                rigidBody.setLinvel(linvel, true);
-              } else if (rigidBody.translation().y > 2) {
-                rigidBody.resetForces(true);
-
-                const linvel = new THREE.Vector3(0, -1, 0);
-                rigidBody.setLinvel(linvel, true);
+        if (distance < minDistanceToTrigger) {
+          if (!viewed) {
+            setLettersToDynamic(rigidBodyRefs, world);
+            rigidBodyRefs.current.forEach((rigidBody) => {
+              if (rigidBody) {
+                const rb = world.getRigidBody(rigidBody.handle);
+                if (rb) {
+                  rb.setGravityScale(0, true);
+                  const linvel = new THREE.Vector3(
+                    getRandomNumber(-0.00005, 0.00005),
+                    getRandomNumber(0, 0.00005),
+                    getRandomNumber(-0.00005, 0.00005)
+                  );
+                  rb.setLinvel(linvel, true);
+                }
               }
-            }
-          });
+            });
+            setViewed(true);
+          }
         }
+        // if (distance < minDistanceToTrigger && getsBackUp) {
+        //   rigidBodyRefs.current.forEach((rigidBody) => {
+        //     if (rigidBody) {
+        //       const rb = world.getRigidBody(rigidBody.handle);
+
+        //       if (rigidBody.translation().y < -2) {
+        //         rigidBody.resetForces(true);
+        //         const linvel = new THREE.Vector3(0, 1, 0);
+
+        //         rigidBody.setLinvel(linvel, true);
+        //       } else if (rigidBody.translation().y > 2) {
+        //         rigidBody.resetForces(true);
+
+        //         const linvel = new THREE.Vector3(0, -1, 0);
+        //         rigidBody.setLinvel(linvel, true);
+        //       }
+        //     }
+        //   });
+        // }
       } else if (!distanceBased) {
         const centerRef = Math.floor((rigidBodyRefs.current.length - 1) * 0.5);
         setDot(

@@ -23,7 +23,7 @@ function Main_scene({}: Props) {
   /* Oscar = Dog Model */
   // spaceBoi = Black doodle with orbiting planets
 
-  const oscarPosition: THREE.Vector3 = new THREE.Vector3(-10, 0, 0);
+  const oscarPosition: THREE.Vector3 = new THREE.Vector3(-20, 0, 0);
   const oscarRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, 130, 250);
   const planetWithLinesPosition: THREE.Vector3 = new THREE.Vector3(

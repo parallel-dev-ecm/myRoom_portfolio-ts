@@ -4,11 +4,13 @@ import { Text3D } from "@react-three/drei";
 import * as THREE from "three";
 import { getDotFromCamera } from "../../functions";
 import { gsap } from "gsap";
+
 type textProps = {
   text: string;
   name: string;
   textScale: number;
 };
+
 
 export function ShrinkingText({ text, name, textScale }: textProps) {
   const mainGroupRef = useRef<THREE.Group>(null);
@@ -40,7 +42,6 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
     if (mainGroupRef.current) {
       mainGroupRef.current.lookAt(state.camera.position);
     }
-
     if (shrinkingTextRefs.current) {
       const dot = getDotFromCamera({
         state,

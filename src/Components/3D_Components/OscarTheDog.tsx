@@ -75,7 +75,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
           <FallingText
             text="Hello My name is Oscar"
             position={new THREE.Vector3(0, -2, 0)}
-            minDistanceToTrigger={30}
+            minDistanceToTrigger={10}
             name="oscarFallingText"
             textScale={1}
             getsBackUp={true}
