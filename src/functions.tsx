@@ -73,7 +73,9 @@ export const getDistanceToPlayer = (inputData: inputData): number => {
       const toOtherObject = scene.getObjectByName(objectToGetDistanceFrom);
       const toOtherVector: THREE.Vector3 = new THREE.Vector3();
       if (toOtherObject) {
-        toOtherVector.copy(toOtherObject.position);
+        const toOtherWorldPosition = new THREE.Vector3();
+        toOtherObject.getWorldPosition(toOtherWorldPosition);
+        toOtherVector.copy(toOtherWorldPosition);
         const distance: number = cameraPosition.distanceTo(toOtherVector);
         return distance;
       } else {
@@ -109,7 +111,9 @@ export const getDotFromCamera = (inputData: inputData): number => {
   } else if (objectToLookAtName) {
     const toOtherObject = scene.getObjectByName(objectToLookAtName);
     if (toOtherObject) {
-      toOtherVector.copy(toOtherObject.position);
+      const toOtherWorldPosition = new THREE.Vector3();
+      toOtherObject.getWorldPosition(toOtherWorldPosition);
+      toOtherVector.copy(toOtherWorldPosition);
       const direction: THREE.Vector3 = getDirectionToPlayer(
         toOtherVector,
         cameraPosition
