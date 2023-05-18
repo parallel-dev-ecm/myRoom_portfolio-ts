@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { getDistanceToPlayer } from "../../functions";
 import { useFrame } from "@react-three/fiber";
-import { FallingText } from "./FallingText";
+import { ExplodingText } from "./ExplodingText";
 
 type OscarProps = {
   scale: number;
@@ -72,7 +72,7 @@ function OscarTheDog({ scale, position, rotation }: OscarProps) {
     <>
       <group ref={parentGroupRef} position={position}>
         <group ref={oscarAngryTextRef} rotation={[0, 90, 0]} visible={true}>
-          <FallingText
+          <ExplodingText
             text="Hello friend!"
             position={new THREE.Vector3(0, -2, 0)}
             minDistanceToTrigger={10}

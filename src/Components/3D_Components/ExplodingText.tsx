@@ -28,14 +28,13 @@ function setLettersToDynamic(
   references.current.forEach((ref) => {
     if (ref) {
       const rb = world.getRigidBody(ref.handle);
-      rb?.setGravityScale(Math.random(), true);
       const bodyType: RigidBodyType = 0;
       rb?.setBodyType(bodyType);
     }
   });
 }
 
-export function FallingText({
+export function ExplodingText({
   text,
   minDistanceToTrigger,
   name,
@@ -52,7 +51,6 @@ export function FallingText({
   const [dot, setDot] = useState<number>(0);
   const [viewed, setViewed] = useState<boolean>(false);
   const [onSight, setOnSight] = useState<boolean>(false);
-
   const { world } = useRapier();
 
   useEffect(() => {
@@ -82,15 +80,16 @@ export function FallingText({
             rigidBodyRefs.current.forEach((rigidBody) => {
               if (rigidBody) {
                 const rb = world.getRigidBody(rigidBody.handle);
+                rigidBody.setAngularDamping;
                 if (rb) {
                   rb.setGravityScale(0, true);
                   const linvel = new THREE.Vector3(
-                    getRandomNumber(-0.0005, 0.0005),
-                    getRandomNumber(0, 0.0005),
-                    getRandomNumber(0.0005, -0.0005)
+                    getRandomNumber(-0.1, 0.1),
+                    getRandomNumber(0, 0.1),
+                    getRandomNumber(0.1, -0.1)
                   );
-                  rb.setAngularDamping(0.1);
-                  rb.setLinearDamping(0.1);
+                  rb.setAngularDamping(2);
+                  rb.setLinearDamping(2);
                   rb.setLinvel(linvel, true);
                 }
               }
@@ -98,49 +97,6 @@ export function FallingText({
             setViewed(true);
           }
         }
-
-        // if (distance < minDistanceToTrigger) {
-        //   if (!viewed) {
-        //     setLettersToDynamic(rigidBodyRefs, world);
-        //     rigidBodyRefs.current.forEach((rigidBody) => {
-        //       if (rigidBody) {
-        //         const rb = world.getRigidBody(rigidBody.handle);
-        //         if (rb) {
-        //           rb.setGravityScale(0, true);
-        //           const linvel = new THREE.Vector3(
-        //             getRandomNumber(-0.0005, 0.0005),
-        //             getRandomNumber(0, 0.0005),
-        //             getRandomNumber(0.0005, -0.0005)
-        //           );
-        //           rb.setAngularDamping(0.1);
-        //           rb.setLinearDamping(0.001);
-        //           rb.setLinvel(linvel, true);
-        //         }
-        //       }
-        //     });
-        //   }
-        //   setViewed(true);
-        // }
-        if (distance > minDistanceToTrigger && getsBackUp) {
-          // rigidBodyRefs.current.forEach((rigidBody) => {
-          //   if (rigidBody) {
-          //     rigidBody.lockRotations(true, true);
-          //     if (rigidBody.translation().y < -2) {
-          //       rigidBody.resetForces(true);
-          //       const linvel = new THREE.Vector3(0, 1, 0);
-          //       rigidBody.setLinvel(linvel, true);
-          //     } else if (rigidBody.translation().y > 2) {
-          //       rigidBody.resetForces(true);
-          //       const linvel = new THREE.Vector3(0, -1, 0);
-          //       rigidBody.setLinvel(linvel, true);
-          //     }
-          //   }
-          // });
-        }
-
-        // if (distance < minDistanceToTrigger && getsBackUp) {
-        //   setLettersToDynamic(rigidBodyRefs, world);
-        // }
       } else if (!distanceBased) {
         const centerRef = Math.floor((rigidBodyRefs.current.length - 1) * 0.5);
         setDot(
