@@ -30,19 +30,6 @@ function setLettersToDynamic(
     }
   });
 }
-function setLettersToFixed(
-  references: React.MutableRefObject<(RigidBodyApi | null)[]>,
-  world: WorldApi
-) {
-  references.current.forEach((ref) => {
-    if (ref) {
-      const rb = world.getRigidBody(ref.handle);
-      rb?.setGravityScale(Math.random(), true);
-      const bodyType: RigidBodyType = 1;
-      rb?.setBodyType(bodyType);
-    }
-  });
-}
 
 export function FallingText({
   text,
@@ -113,7 +100,7 @@ export function FallingText({
           setLettersToDynamic(rigidBodyRefs, world);
         }
         if (dot > 0.8 && getsBackUp) {
-            rigidBodyRefs.current.forEach((rigidBody) => {
+          rigidBodyRefs.current.forEach((rigidBody) => {
             if (rigidBody) {
               const rb = world.getRigidBody(rigidBody.handle);
               rb?.setGravityScale(0.1, true);

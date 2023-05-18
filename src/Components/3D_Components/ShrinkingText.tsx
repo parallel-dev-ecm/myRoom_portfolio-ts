@@ -29,6 +29,8 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
   }, [characters.length]);
 
   useFrame((state) => {
+    shrinkTl.duration(1000);
+
     if (mainGroupRef.current) {
       mainGroupRef.current.lookAt(state.camera.position);
     }
@@ -38,7 +40,7 @@ export function ShrinkingText({ text, name, textScale }: textProps) {
         objectToGetDistanceFrom: name,
       });
 
-      if (dot < 0.88) {
+      if (dot < 0.9) {
         elim = true;
       } else {
         elim = false;

@@ -15,7 +15,6 @@ import Player from "./Player";
 import SpaceBoi from "./SpaceBoi";
 import Ground from "./Ground";
 import PlanetWithPlaneLines from "./PlanetWithPlaneLines";
-import { ShrinkingText } from "./ShrinkingText";
 
 type Props = {};
 
