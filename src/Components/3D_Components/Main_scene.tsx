@@ -1,20 +1,23 @@
 /* Main R3F SCENE  */
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import StarPoints from "./StarPoints";
+import StarPoints from "./Environment/StarPoints";
 import { Suspense } from "react";
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "./Environment/LoadingScreen";
 import {
   KeyboardControls,
   PointerLockControls,
   Stars,
 } from "@react-three/drei";
-import OscarTheDog from "./OscarTheDog";
+import OscarTheDog from "./ModelComponetns/OscarTheDog";
 import { Physics, Debug } from "@react-three/rapier";
 import Player from "./Player";
-import SpaceBoi from "./SpaceBoi";
-import Ground from "./Ground";
-import PlanetWithPlaneLines from "./PlanetWithPlaneLines";
+import Ground from "./Environment/Ground";
+import TopDomeScene from "./Environment/TopDomeScene";
+import SpaceBoi from "./ModelComponetns/SpaceBoi";
+import LeftADomeScene from "./Environment/LeftADomeScene";
+import LauchRocket from "./ModelComponetns/LaunchRocket";
+import Gallery from "./Environment/Gallery";
 
 type Props = {};
 
@@ -25,12 +28,7 @@ function Main_scene({}: Props) {
 
   const oscarPosition: THREE.Vector3 = new THREE.Vector3(-20, 0, 0);
   const oscarRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, 130, 250);
-  const planetWithLinesPosition: THREE.Vector3 = new THREE.Vector3(
-    0,
-    300,
-    -300
-  );
+  const spaceBoiPosition: THREE.Vector3 = new THREE.Vector3(0, 100, 250);
 
   const spaceBoiRotation: THREE.Vector3 = new THREE.Vector3(
     -Math.PI * 0.3,
@@ -49,20 +47,24 @@ function Main_scene({}: Props) {
         { name: "jump", keys: ["Space"] },
       ]}
     >
-      <Canvas camera={{ position: [0, 0, -1] }}>
+      <Canvas camera={{ position: [0, 0, -1], near: 1, far: 10000 }}>
         {/* Loading screen */}
         <Suspense fallback={<LoadingScreen />}>
           <PointerLockControls />
 
-          <group position={[0, 0, 0]}>
-            {/* <ShrinkingText
-              text="@parallel-dev-ecm"
-              name="rightSideSpaceBoyText"
-              textScale={1}
-            /> */}
+          {/* DOME SCENES */}
+          <group name="topDomeScene" position={[0, 400, 0]}>
+            <TopDomeScene />
           </group>
+          <group scale={1} position={[1000, 200, 250]}>
+            <LeftADomeScene name="leftADomeScene" />
+          </group>
+
           <Physics>
-            <Debug />
+            <Gallery />
+            {/* <LauchRocket scaleScalar={1} /> */}
+
+            {/* <Debug /> */}
             {/* <FallingText text="Hello" minDistanceToTrigger={20} /> */}
             <OscarTheDog
               scale={0.006}
@@ -72,6 +74,7 @@ function Main_scene({}: Props) {
             <Player />
             <Ground />
           </Physics>
+
           {/* Stars Background */}
           <Stars
             radius={100}
@@ -86,10 +89,12 @@ function Main_scene({}: Props) {
 
           {/* Stars in env not in background */}
           <StarPoints numberOfStars={1000} starScale={0.09} />
+          <spotLight color={0xffffff} intensity={1} position={[0, 0, 0]} />
 
           {/* Lights */}
-          <ambientLight color={[1, 1, 1]} intensity={0.1} />
-          <PlanetWithPlaneLines position={planetWithLinesPosition} />
+          <ambientLight color={[1, 1, 1]} intensity={1} />
+
+          {/* <PlanetWithPlaneLines position={planetWithLinesPosition} /> */}
         </Suspense>
       </Canvas>
     </KeyboardControls>
